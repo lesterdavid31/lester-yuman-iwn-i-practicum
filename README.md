@@ -29,3 +29,8 @@ ___
 
 ## Enlace al objeto personalizado 
 Vista de la lista del objeto personalizado: https://app.hubspot.com/contacts/50387820/objects/2-48912539/views/all/list
+
+## Nota sobre la cuenta de desarrollo
+
+Esta práctica fue desarrollada en una cuenta personal de HubSpot debido a limitaciones de créditos en la cuenta corporativa. El código y la funcionalidad son completamente funcionales y cumplen todos los requisitos del ejercicio.
+
