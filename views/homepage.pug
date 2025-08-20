@@ -1,0 +1,32 @@
+doctype html
+html
+    head
+        title= pageTitle
+        link(rel='stylesheet', href='/css/style.css')
+    body
+        h1 Lista de Verduras
+        
+        // Enlace para agregar nueva verdura
+        a(href='/update-cobj') Añadir a esta tabla
+        
+        // Mostrar error si existe
+        if error
+            p.error= error
+        
+        // Tabla de verduras
+        if verduras && verduras.length > 0
+            table
+                thead
+                    tr
+                        th ID
+                        th Nombre
+                        th Tipo
+                tbody
+                    each verdura in verduras
+                        tr
+                            td= verdura.id
+                            td= verdura.properties.nombre
+                            td= verdura.properties.tipo
+        else
+            p No hay verduras registradas. 
+                a(href='/update-cobj') ¡Crea la primera!

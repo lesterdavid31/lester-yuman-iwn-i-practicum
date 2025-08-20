@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
@@ -65,6 +66,87 @@ app.post('/update', async (req, res) => {
 
 });
 */
+
+// Ruta para la página de inicio - mostrar lista de verduras
+app.get('/', async (req, res) => {
+    try {
+        // 1. Configurar la llamada a la API de HubSpot
+        const objectType = '2-48912539'; // ID de tu objeto personalizado "verduras"
+        const properties = 'nombre,tipo_de_verdura'; // Las 3 propiedades que creaste
+        
+        // 2. Hacer GET request a HubSpot API
+        const response = await axios.get(`https://api.hubapi.com/crm/v3/objects/${objectType}`, {
+            headers: {
+                'Authorization': `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            params: {
+                properties: properties,
+                limit: 10 // Máximo de registros a obtener
+            }
+        });
+        
+        // 3. Extraer los datos de la respuesta
+        const verduras = response.data.results;
+        
+        // 4. Renderizar la plantilla homepage con los datos
+        res.render('homepage', {
+            pageTitle: 'Lista de Verduras | Integración con HubSpot I Practicum',
+            verduras: verduras
+        });
+        
+    } catch (error) {
+        // 5. Manejo de errores
+        console.error('Error al obtener verduras:', error.response?.data || error.message);
+        res.render('homepage', {
+            pageTitle: 'Lista de Verduras | Error',
+            verduras: [],
+            error: 'Error al cargar las verduras'
+        });
+    }
+});
+
+app.get('/update-cobj', (req,res)=>{
+    res.render('updates', {
+        pageTitle: 'Actualizar Formulario de objeto personalizado | Integración con HubSpot'
+    });
+});
+
+// Ruta POST para procesar el formulario y crear nueva verdura
+app.post('/update-cobj', async (req, res) => {
+    try {
+        // 1. Obtener los datos del formulario
+        const { nombre, tipo_de_verdura } = req.body;
+        
+        // 2. Preparar los datos para HubSpot
+        const newVerdura = {
+            properties: {
+                "nombre": nombre,
+                "tipo_de_verdura": tipo_de_verdura
+            }
+        };
+        
+        // 3. Hacer POST request a HubSpot API
+        const objectType = '2-48912539';
+        const response = await axios.post(`https://api.hubapi.com/crm/v3/objects/${objectType}`, newVerdura, {
+            headers: {
+                'Authorization': `Bearer ${process.env.HUBSPOT_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        console.log('Nueva verdura creada:', response.data);
+        
+        // 4. Redirigir a la página principal
+        res.redirect('/');
+        
+    } catch (error) {
+        console.error('Error al crear verdura:', error.response?.data || error.message);
+        // En caso de error, redirigir de vuelta al formulario
+        res.redirect('/update-cobj');
+    }
+});
+
 
 
 // * Localhost
