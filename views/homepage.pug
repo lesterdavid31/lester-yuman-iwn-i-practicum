@@ -1,32 +1,33 @@
 doctype html
-html
+html(lang="es")
     head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title= pageTitle
         link(rel='stylesheet', href='/css/style.css')
     body
-        h1 Lista de Verduras
-        
-        // Enlace para agregar nueva verdura
-        a(href='/update-cobj') Añadir a esta tabla
-        
-        // Mostrar error si existe
-        if error
-            p.error= error
-        
-        // Tabla de verduras
-        if verduras && verduras.length > 0
-            table
-                thead
-                    tr
-                        th ID
-                        th Nombre
-                        th Tipo
-                tbody
-                    each verdura in verduras
+        .container
+            h1  Lista de Verduras
+            
+            a(href='/update-cobj')  Añadir a esta tabla
+            
+            if error
+                .error= error
+            
+            if verduras && verduras.length > 0
+                table
+                    thead
                         tr
-                            td= verdura.id
-                            td= verdura.properties.nombre
-                            td= verdura.properties.tipo
-        else
-            p No hay verduras registradas. 
-                a(href='/update-cobj') ¡Crea la primera!
+                            th  ID
+                            th  Nombre
+                            th  Tipo de Verdura
+                    tbody
+                        each verdura in verduras
+                            tr
+                                td= verdura.id
+                                td= verdura.properties.nombre || 'Sin nombre'
+                                td= verdura.properties.tipo_de_verdura || 'Sin tipo'
+            else
+                p  No hay verduras registradas. 
+                    br
+                    a(href='/update-cobj') ¡Crea la primera verdura!

@@ -1,20 +1,23 @@
 doctype html
-html
+html(lang="es")
     head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title= pageTitle
         link(rel='stylesheet', href='/css/style.css')
     body
-        h1 Crear Nueva Verdura
-        
-        a(href='/') ← Regresar a la página de inicio
-        
-        form(action='/update-cobj', method='POST')
-            div
-                label(for='nombre') Nombre:
-                input(type='text', id='nombre', name='nombre', required)
+        .container
+            h1  Crear Nueva Verdura
             
-            div
-                label(for='tipo_de_verdura') Tipo de Verdura:
-                input(type='text', id='tipo_de_verdura', name='tipo_de_verdura', required)
+            a(href='/') ← Regresar a la página de inicio
             
-            button(type='submit') Crear Verdura
+            form(action='/update-cobj', method='POST')
+                div
+                    label(for='nombre')  Nombre de la Verdura:
+                    input(type='text', id='nombre', name='nombre', placeholder='Ej: Zanahoria, Brócoli, Espinaca...', required)
+                
+                div
+                    label(for='tipo_de_verdura')  Tipo de Verdura:
+                    input(type='text', id='tipo_de_verdura', name='tipo_de_verdura', placeholder='Ej: Hoja verde, Raíz, Tubérculo...', required)
+                
+                button(type='submit')  Crear Verdura
